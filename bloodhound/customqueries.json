@@ -1,0 +1,64 @@
+{
+  "queries": [
+    {
+      "name": "Shortest path to Domain Admins from Owned",
+      "category": "Lab - priority",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH p=shortestPath((n)-[*1..]->(g:Group)) WHERE n.owned=true AND g.objectid ENDS WITH '-512' RETURN p"
+        }
+      ]
+    },
+    {
+      "name": "Who can read LAPS passwords",
+      "category": "Lab - priority",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH p=(n)-[:ReadLAPSPassword]->(c:Computer) RETURN p"
+        }
+      ]
+    },
+    {
+      "name": "Kerberoastable users (has SPN)",
+      "category": "Lab - roasting",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH (u:User) WHERE u.hasspn=true RETURN u.name, u.description ORDER BY u.name"
+        }
+      ]
+    },
+    {
+      "name": "AS-REP roastable users (no pre-auth)",
+      "category": "Lab - roasting",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH (u:User) WHERE u.dontreqpreauth=true RETURN u.name ORDER BY u.name"
+        }
+      ]
+    },
+    {
+      "name": "Service accounts that are Domain Admins",
+      "category": "Lab - privilege",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH (u:User)-[:MemberOf*1..]->(g:Group) WHERE g.objectid ENDS WITH '-512' AND u.name STARTS WITH 'SVC' RETURN u.name"
+        }
+      ]
+    },
+    {
+      "name": "Computers where my owned principals have admin",
+      "category": "Lab - lateral",
+      "queryList": [
+        {
+          "final": true,
+          "query": "MATCH p=(n)-[:AdminTo]->(c:Computer) WHERE n.owned=true RETURN p"
+        }
+      ]
+    }
+  ]
+}

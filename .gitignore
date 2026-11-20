@@ -1,0 +1,15 @@
+# keep loot out of git
+*.hash
+*.ntds
+*.zip
+scans/
+loot/
+*.kirbi
+*.ccache
+sh.zip
+
+# cracked passwords / wordlist outputs
+*.potfile
+cracked.txt
+
+.DS_Store
